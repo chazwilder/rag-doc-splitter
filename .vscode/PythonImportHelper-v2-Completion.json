@@ -52,6 +52,38 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "RawBSONDocument",
+        "importPath": "bson.raw_bson",
+        "description": "bson.raw_bson",
+        "isExtraImport": true,
+        "detail": "bson.raw_bson",
+        "documentation": {}
+    },
+    {
         "label": "RawBSONDocument",
         "importPath": "bson.raw_bson",
         "description": "bson.raw_bson",
@@ -73,6 +105,38 @@
         "description": "pymongo",
         "isExtraImport": true,
         "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "importPath": "langchain_core.documents",
+        "description": "langchain_core.documents",
+        "isExtraImport": true,
+        "detail": "langchain_core.documents",
+        "documentation": {}
+    },
+    {
+        "label": "Language",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "RecursiveCharacterTextSplitter",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "TextSplitter",
+        "importPath": "semantic_text_splitter",
+        "description": "semantic_text_splitter",
+        "isExtraImport": true,
+        "detail": "semantic_text_splitter",
         "documentation": {}
     },
     {
@@ -163,6 +227,33 @@
         "description": "src.db",
         "peekOfCode": "class MongoConnection:\n    documents: List\n    def __init__(\n        self,\n        database: str = MONGO_DATABASE,\n        collection: str = MONGO_COLLECTION,\n        corpus: str = MONGO_CORPUS,\n    ):\n        self.client: MongoClient = MongoClient(MONGO_URI)\n        self.db = self.client[database]",
         "detail": "src.db",
+        "documentation": {}
+    },
+    {
+        "label": "csharp_splitter",
+        "kind": 2,
+        "importPath": "src.splitters",
+        "description": "src.splitters",
+        "peekOfCode": "def csharp_splitter(document: str) -> List[Document]: ...\ndef semantic_splitter(document: str) -> List[Document]: ...",
+        "detail": "src.splitters",
+        "documentation": {}
+    },
+    {
+        "label": "semantic_splitter",
+        "kind": 2,
+        "importPath": "src.splitters",
+        "description": "src.splitters",
+        "peekOfCode": "def semantic_splitter(document: str) -> List[Document]: ...",
+        "detail": "src.splitters",
+        "documentation": {}
+    },
+    {
+        "label": "splitter_idx",
+        "kind": 2,
+        "importPath": "src.utils",
+        "description": "src.utils",
+        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str]\n) -> List[Dict[str, str]]: ...",
+        "detail": "src.utils",
         "documentation": {}
     }
 ]
