@@ -19,7 +19,7 @@ def csharp_splitter(document: str) -> List[Document]:
     c_splitter = RecursiveCharacterTextSplitter.from_language(
         language=Language.CSHARP, chunk_size=1024, chunk_overlap=0
     )
-    return c_splitter.create_documents(document)
+    return c_splitter.create_documents([document])
 
 
 def semantic_splitter(document: str) -> List[str]:

@@ -36,14 +36,18 @@ class MongoConnection:
         self.collection = self.db[collection]
         self.corpus = self.db[corpus]
 
-    def get_documents(self) -> List[RawBSONDocument]:
+    def get_documents(self, **kwargs) -> List[RawBSONDocument]:
         """
         Retrieves documents from the MongoDB collection that have not been split.
 
         Returns:
         List[RawBSONDocument]: A list of RawBSONDocument objects where the 'splitted' field is set to False.
         """
-        return list(self.collection.find({"splitted": False}))
+        if kwargs:
+            query = {"manual": kwargs.get("manual", None), "splitted": False}
+        else:
+            query = {"splitted": False}
+        return list(self.collection.find(query))
 
     def update_document(self, document):
         """
@@ -59,7 +63,7 @@ class MongoConnection:
         """
         self.collection.update_one({"_id": document["_id"]}, {"splitted": True})
 
-    def save_documents(self, document: RawBSONDocument):
+    def save_documents(self, document: RawBSONDocument, chunks: List[RawBSONDocument]):
         """
         Saves a document to the MongoDB corpus collection.
 
@@ -71,4 +75,5 @@ class MongoConnection:
         Returns:
         None
         """
-        self.corpus.insert_one(document)
+        self.corpus.insert_many(chunks)
+        self.update_document(document)

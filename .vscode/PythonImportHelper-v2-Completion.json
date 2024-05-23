@@ -100,11 +100,28 @@
         "documentation": {}
     },
     {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
         "label": "MongoClient",
         "importPath": "pymongo",
         "description": "pymongo",
         "isExtraImport": true,
         "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
         "documentation": {}
     },
     {
@@ -114,6 +131,14 @@
         "importPath": "sqlparse",
         "description": "sqlparse",
         "detail": "sqlparse",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "importPath": "langchain_core.documents",
+        "description": "langchain_core.documents",
+        "isExtraImport": true,
+        "detail": "langchain_core.documents",
         "documentation": {}
     },
     {
@@ -239,6 +264,33 @@
         "documentation": {}
     },
     {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:\n        chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])\n        cli.save_documents(doc, chunks)\nmain()",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "FUNCTION_MAP",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "SPLITTER_MAP",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:\n        chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
         "label": "csharp_splitter",
         "kind": 2,
         "importPath": "src.splitters",
@@ -270,7 +322,7 @@
         "kind": 2,
         "importPath": "src.utils",
         "description": "src.utils",
-        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str]\n) -> List[Dict[str, str]]: ...",
+        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str | Document]\n) -> List[Dict[str, str]]:\n    idx = 0\n    base_id = str(document[\"_id\"])\n    file_name = document[\"file_name\"]\n    child_documents = []\n    for chunk in chunks:\n        if isinstance(chunk, Document):\n            child_documents.append(",
         "detail": "src.utils",
         "documentation": {}
     }
