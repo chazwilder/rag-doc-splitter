@@ -22,8 +22,8 @@ SPLITTER_MAP = {
 def main():
     cli = MongoConnection()
     docs = cli.get_documents()
-    for doc in docs[:2]:
-        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](doc["content"])
+    for doc in docs:
+        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](f'{doc["content"]} \n\n\n\n{doc.get("summary", "")}')
         formatted_chunks = splitter_idx(doc, splitter_chunks)
         cli.save_documents(doc, formatted_chunks)
 

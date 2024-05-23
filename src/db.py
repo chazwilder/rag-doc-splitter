@@ -46,7 +46,7 @@ class MongoConnection:
         List[RawBSONDocument]: A list of RawBSONDocument objects where the 'splitted' field is set to False.
         """
         if kwargs:
-            query = {"manual": kwargs.get("manual", None), "splitted": False}
+            query = {"manual": kwargs.get("manual", None), "splitted": False, "$sort": {'file_name': 1}}
         else:
             query = {"splitted": False}
         return list(self.collection.find(query))

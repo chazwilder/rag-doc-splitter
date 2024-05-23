@@ -368,7 +368,7 @@
         "kind": 2,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nmain()",
+        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](f'{doc[\"content\"]} \\n\\n\\n\\n{doc.get(\"summary\", \"\")}')\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nmain()",
         "detail": "src.main",
         "documentation": {}
     },
@@ -377,7 +377,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:",
+        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:",
         "detail": "src.main",
         "documentation": {}
     },
@@ -386,7 +386,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])",
+        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](f'{doc[\"content\"]} \\n\\n\\n\\n{doc.get(\"summary\", \"\")}')",
         "detail": "src.main",
         "documentation": {}
     },
