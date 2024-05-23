@@ -3,7 +3,7 @@ from typing import List
 from bson.raw_bson import RawBSONDocument
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from .loggy import logger
+from loggy import logger
 
 load_dotenv()
 
@@ -63,7 +63,7 @@ class MongoConnection:
         Returns:
         None
         """
-        self.collection.update_one({"_id": document["_id"]}, {"splitted": True})
+        self.collection.update_one({"_id": document["_id"]},  {"$set": {"splitted": True}})
         logger.debug(f"Updated document: {document['_id']}")
 
     def save_documents(self, document: RawBSONDocument, chunks: List[RawBSONDocument]):
