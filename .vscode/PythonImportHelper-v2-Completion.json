@@ -132,6 +132,14 @@
         "documentation": {}
     },
     {
+        "label": "logger",
+        "importPath": "loggy",
+        "description": "loggy",
+        "isExtraImport": true,
+        "detail": "loggy",
+        "documentation": {}
+    },
+    {
         "label": "logging",
         "kind": 6,
         "isExtraImport": true,
@@ -368,7 +376,7 @@
         "kind": 2,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](\n            f'{doc[\"content\"]} \\n\\n\\n\\nSUMMARY: {doc.get(\"summary\", \"\")}'\n        )\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nif __name__ == \"__main__\":",
+        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    logger.info(f\"Found {len(docs)} documents to split.\")\n    for doc in docs:\n        logger.info(f\"Splitting document: {dict(doc)}\")\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](\n            f'{doc[\"content\"]} \\n\\n\\n\\nSUMMARY: {doc.get(\"summary\", \"\")}'\n        )\n        formatted_chunks = splitter_idx(doc, splitter_chunks)",
         "detail": "src.main",
         "documentation": {}
     },
@@ -377,7 +385,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:",
+        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    logger.info(f\"Found {len(docs)} documents to split.\")",
         "detail": "src.main",
         "documentation": {}
     },
@@ -386,7 +394,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](",
+        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    logger.info(f\"Found {len(docs)} documents to split.\")\n    for doc in docs:",
         "detail": "src.main",
         "documentation": {}
     },

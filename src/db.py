@@ -50,11 +50,14 @@ class MongoConnection:
             query = {
                 "manual": kwargs.get("manual", None),
                 "splitted": False,
-                "$sort": {"file_name": 1},
+                "manual": {"$exists": True},
             }
         else:
-            query = {"splitted": False}
-        return list(self.collection.find(query))
+            query = {
+                "splitted": False,
+                "manual": {"$exists": True},
+            }
+        return list(self.collection.find(query).sort("file_name", 1))
 
     def update_document(self, document):
         """

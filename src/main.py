@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from db import MongoConnection
 from splitters import csharp_splitter, semantic_splitter, sql_splitter
 from utils import splitter_idx
+from loggy import logger
 
 load_dotenv()
 
@@ -22,7 +23,9 @@ SPLITTER_MAP = {
 def main():
     cli = MongoConnection()
     docs = cli.get_documents()
+    logger.info(f"Found {len(docs)} documents to split.")
     for doc in docs:
+        logger.info(f"Splitting document: {dict(doc)}")
         splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](
             f'{doc["content"]} \n\n\n\nSUMMARY: {doc.get("summary", "")}'
         )
