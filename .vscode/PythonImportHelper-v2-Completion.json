@@ -108,6 +108,15 @@
         "documentation": {}
     },
     {
+        "label": "sqlparse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlparse",
+        "description": "sqlparse",
+        "detail": "sqlparse",
+        "documentation": {}
+    },
+    {
         "label": "Document",
         "importPath": "langchain_core.documents",
         "description": "langchain_core.documents",
@@ -225,7 +234,7 @@
         "kind": 6,
         "importPath": "src.db",
         "description": "src.db",
-        "peekOfCode": "class MongoConnection:\n    documents: List\n    def __init__(\n        self,\n        database: str = MONGO_DATABASE,\n        collection: str = MONGO_COLLECTION,\n        corpus: str = MONGO_CORPUS,\n    ):\n        self.client: MongoClient = MongoClient(MONGO_URI)\n        self.db = self.client[database]",
+        "peekOfCode": "class MongoConnection:\n    documents: List\n    def __init__(\n        self,\n        database: str = MONGO_DATABASE,\n        collection: str = MONGO_COLLECTION,\n        corpus: str = MONGO_CORPUS,\n    ):\n        \"\"\"\n        Initializes a new instance of the MongoConnection class.",
         "detail": "src.db",
         "documentation": {}
     },
@@ -234,7 +243,7 @@
         "kind": 2,
         "importPath": "src.splitters",
         "description": "src.splitters",
-        "peekOfCode": "def csharp_splitter(document: str) -> List[Document]: ...\ndef semantic_splitter(document: str) -> List[Document]: ...",
+        "peekOfCode": "def csharp_splitter(document: str) -> List[Document]:\n    \"\"\"\n    Splits a C# document into smaller chunks using a recursive character-based text splitter.\n    Args:\n        document (str): The C# document to be split.\n    Returns:\n        List[Document]: A list of Document objects, each representing a chunk of the original document.\n    \"\"\"\n    c_splitter = RecursiveCharacterTextSplitter.from_language(\n        language=Language.CSHARP, chunk_size=1024, chunk_overlap=0",
         "detail": "src.splitters",
         "documentation": {}
     },
@@ -243,7 +252,16 @@
         "kind": 2,
         "importPath": "src.splitters",
         "description": "src.splitters",
-        "peekOfCode": "def semantic_splitter(document: str) -> List[Document]: ...",
+        "peekOfCode": "def semantic_splitter(document: str) -> List[str]:\n    \"\"\"\n    Splits a document into smaller chunks using a semantic text splitter based on a specific model.\n    Args:\n        document (str): The document to be split.\n    Returns:\n        List[str]: A list of strings, each representing a chunk of the original document.\n    \"\"\"\n    splitter = TextSplitter.from_tiktoken_model(\"gpt-3.5-turbo\", 512)\n    return splitter.chunks(document)",
+        "detail": "src.splitters",
+        "documentation": {}
+    },
+    {
+        "label": "sql_splitter",
+        "kind": 2,
+        "importPath": "src.splitters",
+        "description": "src.splitters",
+        "peekOfCode": "def sql_splitter(document: str) -> List[str]:\n    \"\"\"\n    Splits an SQL document into individual SQL statements.\n    This function uses the `sqlparse` library to split a given SQL document into\n    a list of individual SQL statements. This can be useful for processing or\n    analyzing each statement separately.\n    Args:\n        document (str): The SQL document to be split.\n    Returns:\n        List[str]: A list of strings, each representing an individual SQL statement",
         "detail": "src.splitters",
         "documentation": {}
     },
