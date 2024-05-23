@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from bson.raw_bson import RawBSONDocument
 from langchain_core.documents import Document
-from .loggy import logger
+from loggy import logger
 
 
 def splitter_idx(

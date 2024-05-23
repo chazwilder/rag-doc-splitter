@@ -2,8 +2,9 @@ import json
 
 from dotenv import load_dotenv
 
-from .db import MongoConnection
-from .splitters import csharp_splitter, semantic_splitter, sql_splitter
+from db import MongoConnection
+from splitters import csharp_splitter, semantic_splitter, sql_splitter
+from utils import splitter_idx
 
 load_dotenv()
 
@@ -20,10 +21,11 @@ SPLITTER_MAP = {
 
 def main():
     cli = MongoConnection()
-    docs = cli.get_documents(manual="CODEBASE")
+    docs = cli.get_documents()
     for doc in docs[:2]:
-        chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](doc["content"])
-        cli.save_documents(doc, chunks)
+        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](doc["content"])
+        formatted_chunks = splitter_idx(doc, splitter_chunks)
+        cli.save_documents(doc, formatted_chunks)
 
 
 main()

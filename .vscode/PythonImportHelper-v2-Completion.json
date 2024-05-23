@@ -116,12 +116,85 @@
         "documentation": {}
     },
     {
+        "label": "logger",
+        "importPath": "loggy",
+        "description": "loggy",
+        "isExtraImport": true,
+        "detail": "loggy",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "importPath": "loggy",
+        "description": "loggy",
+        "isExtraImport": true,
+        "detail": "loggy",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "RotatingFileHandler",
+        "importPath": "logging.handlers",
+        "description": "logging.handlers",
+        "isExtraImport": true,
+        "detail": "logging.handlers",
+        "documentation": {}
+    },
+    {
         "label": "json",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "json",
         "description": "json",
         "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "MongoConnection",
+        "importPath": "db",
+        "description": "db",
+        "isExtraImport": true,
+        "detail": "db",
+        "documentation": {}
+    },
+    {
+        "label": "csharp_splitter",
+        "importPath": "splitters",
+        "description": "splitters",
+        "isExtraImport": true,
+        "detail": "splitters",
+        "documentation": {}
+    },
+    {
+        "label": "semantic_splitter",
+        "importPath": "splitters",
+        "description": "splitters",
+        "isExtraImport": true,
+        "detail": "splitters",
+        "documentation": {}
+    },
+    {
+        "label": "sql_splitter",
+        "importPath": "splitters",
+        "description": "splitters",
+        "isExtraImport": true,
+        "detail": "splitters",
+        "documentation": {}
+    },
+    {
+        "label": "splitter_idx",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
         "documentation": {}
     },
     {
@@ -264,11 +337,38 @@
         "documentation": {}
     },
     {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "src.loggy",
+        "description": "src.loggy",
+        "peekOfCode": "logger = logging.getLogger('rag_logger')\nlogger.setLevel(logging.DEBUG)\nhandler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1)\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
+        "detail": "src.loggy",
+        "documentation": {}
+    },
+    {
+        "label": "handler",
+        "kind": 5,
+        "importPath": "src.loggy",
+        "description": "src.loggy",
+        "peekOfCode": "handler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1)\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
+        "detail": "src.loggy",
+        "documentation": {}
+    },
+    {
+        "label": "formatter",
+        "kind": 5,
+        "importPath": "src.loggy",
+        "description": "src.loggy",
+        "peekOfCode": "formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
+        "detail": "src.loggy",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:\n        chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])\n        cli.save_documents(doc, chunks)\nmain()",
+        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nmain()",
         "detail": "src.main",
         "documentation": {}
     },
@@ -277,7 +377,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:",
+        "peekOfCode": "FUNCTION_MAP = json.loads(os.getenv(\"FUNCTION_MAP\", \"{}\"))\nSPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:",
         "detail": "src.main",
         "documentation": {}
     },
@@ -286,7 +386,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents(manual=\"CODEBASE\")\n    for doc in docs[:2]:\n        chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])",
+        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs[:2]:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](doc[\"content\"])",
         "detail": "src.main",
         "documentation": {}
     },
@@ -322,7 +422,7 @@
         "kind": 2,
         "importPath": "src.utils",
         "description": "src.utils",
-        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str | Document]\n) -> List[Dict[str, str]]:\n    idx = 0\n    base_id = str(document[\"_id\"])\n    file_name = document[\"file_name\"]\n    child_documents = []\n    for chunk in chunks:\n        if isinstance(chunk, Document):\n            child_documents.append(",
+        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str | Document]\n) -> List[Dict[str, str]]:\n    idx = 0\n    base_id = str(document[\"_id\"])\n    file_name = document[\"file_name\"]\n    child_documents = []\n    for chunk in chunks:\n        logger.debug(f\"file: {file_name}, index: {idx}, chunk: {chunk}\")\n        if isinstance(chunk, Document):",
         "detail": "src.utils",
         "documentation": {}
     }
