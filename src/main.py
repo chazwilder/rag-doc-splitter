@@ -23,9 +23,12 @@ def main():
     cli = MongoConnection()
     docs = cli.get_documents()
     for doc in docs:
-        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](f'{doc["content"]} \n\n\n\n{doc.get("summary", "")}')
+        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc["manual"]]](
+            f'{doc["content"]} \n\n\n\nSUMMARY: {doc.get("summary", "")}'
+        )
         formatted_chunks = splitter_idx(doc, splitter_chunks)
         cli.save_documents(doc, formatted_chunks)
 
 
-main()
+if __name__ == "__main__":
+    main()

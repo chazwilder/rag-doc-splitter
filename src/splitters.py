@@ -17,7 +17,7 @@ def csharp_splitter(document: str) -> List[Document]:
         List[Document]: A list of Document objects, each representing a chunk of the original document.
     """
     c_splitter = RecursiveCharacterTextSplitter.from_language(
-        language=Language.CSHARP, chunk_size=1024, chunk_overlap=0
+        language=Language.CSHARP, chunk_size=512, chunk_overlap=0
     )
     return c_splitter.create_documents([document])
 
@@ -32,7 +32,7 @@ def semantic_splitter(document: str) -> List[str]:
     Returns:
         List[str]: A list of strings, each representing a chunk of the original document.
     """
-    splitter = TextSplitter.from_tiktoken_model("gpt-3.5-turbo", 512)
+    splitter = TextSplitter.from_tiktoken_model("gpt-3.5-turbo", 128)
     return splitter.chunks(document)
 
 

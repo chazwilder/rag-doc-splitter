@@ -3,6 +3,7 @@ from typing import List
 from bson.raw_bson import RawBSONDocument
 from dotenv import load_dotenv
 from pymongo import MongoClient
+
 from loggy import logger
 
 load_dotenv()
@@ -46,7 +47,11 @@ class MongoConnection:
         List[RawBSONDocument]: A list of RawBSONDocument objects where the 'splitted' field is set to False.
         """
         if kwargs:
-            query = {"manual": kwargs.get("manual", None), "splitted": False, "$sort": {'file_name': 1}}
+            query = {
+                "manual": kwargs.get("manual", None),
+                "splitted": False,
+                "$sort": {"file_name": 1},
+            }
         else:
             query = {"splitted": False}
         return list(self.collection.find(query))
@@ -63,7 +68,9 @@ class MongoConnection:
         Returns:
         None
         """
-        self.collection.update_one({"_id": document["_id"]},  {"$set": {"splitted": True}})
+        self.collection.update_one(
+            {"_id": document["_id"]}, {"$set": {"splitted": True}}
+        )
         logger.debug(f"Updated document: {document['_id']}")
 
     def save_documents(self, document: RawBSONDocument, chunks: List[RawBSONDocument]):
@@ -79,5 +86,7 @@ class MongoConnection:
         None
         """
         self.corpus.insert_many(chunks)
-        logger.debug(f"Inserted {len(chunks)} documents into the corpus collection for file {document['file_name']}.")
+        logger.debug(
+            f"Inserted {len(chunks)} documents into the corpus collection for file {document['file_name']}."
+        )
         self.update_document(document)

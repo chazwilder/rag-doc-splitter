@@ -14,7 +14,7 @@ def splitter_idx(
     child_documents = []
 
     for chunk in chunks:
-        logger.debug(f"file: {file_name}, index: {idx}, chunk: {chunk}")
+        logger.debug(f"file: {file_name}, index: {idx}")
         if isinstance(chunk, Document):
             child_documents.append(
                 {

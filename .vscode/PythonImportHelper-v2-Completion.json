@@ -341,7 +341,7 @@
         "kind": 5,
         "importPath": "src.loggy",
         "description": "src.loggy",
-        "peekOfCode": "logger = logging.getLogger('rag_logger')\nlogger.setLevel(logging.DEBUG)\nhandler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1)\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
+        "peekOfCode": "logger = logging.getLogger('rag_logger')\nlogger.setLevel(logging.DEBUG)\nhandler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1, encoding='utf-8', errors='ignore')\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
         "detail": "src.loggy",
         "documentation": {}
     },
@@ -350,7 +350,7 @@
         "kind": 5,
         "importPath": "src.loggy",
         "description": "src.loggy",
-        "peekOfCode": "handler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1)\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
+        "peekOfCode": "handler = RotatingFileHandler('rag_logger.log', maxBytes=10*1024*1024, backupCount=1, encoding='utf-8', errors='ignore')\nhandler.setLevel(logging.DEBUG)\nformatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\nhandler.setFormatter(formatter)\nlogger.addHandler(handler)",
         "detail": "src.loggy",
         "documentation": {}
     },
@@ -368,7 +368,7 @@
         "kind": 2,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](f'{doc[\"content\"]} \\n\\n\\n\\n{doc.get(\"summary\", \"\")}')\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nmain()",
+        "peekOfCode": "def main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](\n            f'{doc[\"content\"]} \\n\\n\\n\\nSUMMARY: {doc.get(\"summary\", \"\")}'\n        )\n        formatted_chunks = splitter_idx(doc, splitter_chunks)\n        cli.save_documents(doc, formatted_chunks)\nif __name__ == \"__main__\":",
         "detail": "src.main",
         "documentation": {}
     },
@@ -386,7 +386,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](f'{doc[\"content\"]} \\n\\n\\n\\n{doc.get(\"summary\", \"\")}')",
+        "peekOfCode": "SPLITTER_MAP = {\n    \"csharp_splitter\": csharp_splitter,\n    \"sql_splitter\": sql_splitter,\n    \"semantic_splitter\": semantic_splitter,\n}\ndef main():\n    cli = MongoConnection()\n    docs = cli.get_documents()\n    for doc in docs:\n        splitter_chunks = SPLITTER_MAP[FUNCTION_MAP[doc[\"manual\"]]](",
         "detail": "src.main",
         "documentation": {}
     },
@@ -395,7 +395,7 @@
         "kind": 2,
         "importPath": "src.splitters",
         "description": "src.splitters",
-        "peekOfCode": "def csharp_splitter(document: str) -> List[Document]:\n    \"\"\"\n    Splits a C# document into smaller chunks using a recursive character-based text splitter.\n    Args:\n        document (str): The C# document to be split.\n    Returns:\n        List[Document]: A list of Document objects, each representing a chunk of the original document.\n    \"\"\"\n    c_splitter = RecursiveCharacterTextSplitter.from_language(\n        language=Language.CSHARP, chunk_size=1024, chunk_overlap=0",
+        "peekOfCode": "def csharp_splitter(document: str) -> List[Document]:\n    \"\"\"\n    Splits a C# document into smaller chunks using a recursive character-based text splitter.\n    Args:\n        document (str): The C# document to be split.\n    Returns:\n        List[Document]: A list of Document objects, each representing a chunk of the original document.\n    \"\"\"\n    c_splitter = RecursiveCharacterTextSplitter.from_language(\n        language=Language.CSHARP, chunk_size=512, chunk_overlap=0",
         "detail": "src.splitters",
         "documentation": {}
     },
@@ -404,7 +404,7 @@
         "kind": 2,
         "importPath": "src.splitters",
         "description": "src.splitters",
-        "peekOfCode": "def semantic_splitter(document: str) -> List[str]:\n    \"\"\"\n    Splits a document into smaller chunks using a semantic text splitter based on a specific model.\n    Args:\n        document (str): The document to be split.\n    Returns:\n        List[str]: A list of strings, each representing a chunk of the original document.\n    \"\"\"\n    splitter = TextSplitter.from_tiktoken_model(\"gpt-3.5-turbo\", 512)\n    return splitter.chunks(document)",
+        "peekOfCode": "def semantic_splitter(document: str) -> List[str]:\n    \"\"\"\n    Splits a document into smaller chunks using a semantic text splitter based on a specific model.\n    Args:\n        document (str): The document to be split.\n    Returns:\n        List[str]: A list of strings, each representing a chunk of the original document.\n    \"\"\"\n    splitter = TextSplitter.from_tiktoken_model(\"gpt-3.5-turbo\", 128)\n    return splitter.chunks(document)",
         "detail": "src.splitters",
         "documentation": {}
     },
@@ -422,7 +422,7 @@
         "kind": 2,
         "importPath": "src.utils",
         "description": "src.utils",
-        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str | Document]\n) -> List[Dict[str, str]]:\n    idx = 0\n    base_id = str(document[\"_id\"])\n    file_name = document[\"file_name\"]\n    child_documents = []\n    for chunk in chunks:\n        logger.debug(f\"file: {file_name}, index: {idx}, chunk: {chunk}\")\n        if isinstance(chunk, Document):",
+        "peekOfCode": "def splitter_idx(\n    document: RawBSONDocument, chunks: List[str | Document]\n) -> List[Dict[str, str]]:\n    idx = 0\n    base_id = str(document[\"_id\"])\n    file_name = document[\"file_name\"]\n    child_documents = []\n    for chunk in chunks:\n        logger.debug(f\"file: {file_name}, index: {idx}\")\n        if isinstance(chunk, Document):",
         "detail": "src.utils",
         "documentation": {}
     }
