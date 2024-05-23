@@ -2,6 +2,7 @@ from typing import Dict, List
 
 from bson.raw_bson import RawBSONDocument
 from langchain_core.documents import Document
+from .loggy import logger
 
 
 def splitter_idx(
@@ -13,6 +14,7 @@ def splitter_idx(
     child_documents = []
 
     for chunk in chunks:
+        logger.debug(f"file: {file_name}, index: {idx}, chunk: {chunk}")
         if isinstance(chunk, Document):
             child_documents.append(
                 {

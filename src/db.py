@@ -3,6 +3,7 @@ from typing import List
 from bson.raw_bson import RawBSONDocument
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from .loggy import logger
 
 load_dotenv()
 
@@ -35,6 +36,7 @@ class MongoConnection:
         self.db = self.client[database]
         self.collection = self.db[collection]
         self.corpus = self.db[corpus]
+        logger.debug(f"Connected to MongoDB database: {database}")
 
     def get_documents(self, **kwargs) -> List[RawBSONDocument]:
         """
@@ -62,6 +64,7 @@ class MongoConnection:
         None
         """
         self.collection.update_one({"_id": document["_id"]}, {"splitted": True})
+        logger.debug(f"Updated document: {document['_id']}")
 
     def save_documents(self, document: RawBSONDocument, chunks: List[RawBSONDocument]):
         """
@@ -76,4 +79,5 @@ class MongoConnection:
         None
         """
         self.corpus.insert_many(chunks)
+        logger.debug(f"Inserted {len(chunks)} documents into the corpus collection for file {document['file_name']}.")
         self.update_document(document)
